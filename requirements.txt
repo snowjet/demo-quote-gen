@@ -1,0 +1,8 @@
+gunicorn
+daiquiri
+python-multipart
+python-dotenv
+requests
+six
+flask
+cryptography
