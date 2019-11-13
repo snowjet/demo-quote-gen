@@ -10,4 +10,3 @@ load_dotenv(env_file)
 
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 PROJECT_NAME = os.getenv("PROJECT_NAME", "app")
-
