@@ -23,6 +23,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     name, quote = quote_gen()
+    logger.info("Returning Quote:", name=name, quote=quote)
     return jsonify(name=name,
                    quote=quote)
 
