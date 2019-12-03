@@ -20,11 +20,13 @@ else:
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     name, quote = quote_gen()
     logger.info("Returned Quote:", author=name, quote=quote)
     return jsonify(name=name, quote=quote)
+
 
 if __name__ == "__main__":
     app.run(debug=DEBUG, host="0.0.0.0", port=8080)
