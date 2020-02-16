@@ -21,6 +21,8 @@ spec:
         name: 'python:latest'
         namespace: openshift
       env: []
+  successfulBuildsHistoryLimit: 2
+  failedBuildsHistoryLimit: 1   
   triggers:
     - type: ImageChange
       imageChange: {}
