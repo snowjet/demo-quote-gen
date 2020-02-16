@@ -27,7 +27,7 @@ if QUOTE_BACKEND == 'DB':
 
 @app.route("/")
 def home():
-    name, quote = get_quote()
+    name, quote, backend = get_quote()
     logger.info("Returned Quote:", author=name, quote=quote)
     return jsonify(name=name, quote=quote, backend=backend)
 
