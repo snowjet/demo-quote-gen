@@ -11,6 +11,8 @@ load_dotenv(env_file)
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 PROJECT_NAME = os.getenv("PROJECT_NAME", "app")
 
+QUOTE_BACKEND = os.getenv("QUOTE_BACKEND", "LIST")
+
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if not DATABASE_URL:
