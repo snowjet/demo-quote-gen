@@ -11,6 +11,8 @@ from core.config import LOG_LEVEL
 from core.log import logger
 from core.quote_gen import quote_gen
 
+from db.db_utils import load_schema_safe
+
 logger.info("Config Imported", LOG_LEVEL=LOG_LEVEL)
 
 if LOG_LEVEL == "DEBUG":
