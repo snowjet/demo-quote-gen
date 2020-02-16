@@ -29,7 +29,7 @@ if QUOTE_BACKEND == 'DB':
 def home():
     name, quote = get_quote()
     logger.info("Returned Quote:", author=name, quote=quote)
-    return jsonify(name=name, quote=quote)
+    return jsonify(name=name, quote=quote, backend=backend)
 
 
 if __name__ == "__main__":
