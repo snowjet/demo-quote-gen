@@ -18,9 +18,9 @@ DATABASE_URL = os.getenv("DATABASE_URL", "")
 if not DATABASE_URL:
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
     POSTGRES_PORT = int(os.getenv("POSTGRES_SERVICE_PORT", 5432))
-    POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
-    POSTGRES_PASS = os.getenv("POSTGRES_PASSWORD", "postgres")
-    POSTGRES_NAME = os.getenv("POSTGRES_DB", "quotes")
+    POSTGRES_USER = os.getenv("database-user", "postgres")
+    POSTGRES_PASS = os.getenv("database-password", "postgres")
+    POSTGRES_NAME = os.getenv("database-name", "quotes")
 
     DATABASE_URL = f"host='{POSTGRES_HOST}' port='{POSTGRES_PORT}' dbname='{POSTGRES_NAME}' user='{POSTGRES_USER}' password='{POSTGRES_PASS}'"
 

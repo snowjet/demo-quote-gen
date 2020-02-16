@@ -10,7 +10,6 @@ from six.moves.urllib.parse import urlencode
 from core.config import LOG_LEVEL, QUOTE_BACKEND
 from core.log import logger
 from core.quote import get_quote
-from db.db_utils import load_schema_safe
 
 logger.info("Config Imported", LOG_LEVEL=LOG_LEVEL)
 
@@ -22,6 +21,7 @@ else:
 app = Flask(__name__)
 
 if QUOTE_BACKEND == 'DB':
+    from db.db_utils import load_schema_safe
     msg = load_schema_safe()
     logger.info("Setup DB", load_schema_msg=msg)
 

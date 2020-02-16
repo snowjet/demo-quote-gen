@@ -29,10 +29,6 @@ def disconnect_from_database():
     logger.info("Closed DB connection")
 
 
-def test():
-    return "Test"
-
-
 def load_schema_safe():
 
     db_conn = get_database_connection()
