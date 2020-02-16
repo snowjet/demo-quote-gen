@@ -16,7 +16,7 @@ QUOTE_BACKEND = os.getenv("QUOTE_BACKEND", "LIST")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if not DATABASE_URL:
-    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
+    POSTGRES_HOST = os.getenv("POSTGRESQL_SERVICE_HOST", "postgresql")
     POSTGRES_PORT = int(os.getenv("POSTGRES_SERVICE_PORT", 5432))
     POSTGRES_USER = os.getenv("database-user", "postgres")
     POSTGRES_PASS = os.getenv("database-password", "postgres")
