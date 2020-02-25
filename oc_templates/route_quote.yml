@@ -16,7 +16,7 @@ spec:
   alternateBackends:
     - kind: Service
       name: ab-v2
-      weight: 15
+      weight: 0
   port:
     targetPort: 8080-tcp
   wildcardPolicy: None

@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ab-v1
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: ab-v1
+    deploymentconfig: ab-v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ab-v2
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: ab-v2
+    deploymentconfig: ab-v2

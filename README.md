@@ -4,20 +4,19 @@ Quote Generator
 # Load balancing for A/B testing
 
 ```bash
-oc apply -f ./oc_templates/build_*
-```
+oc new-project quote
+oc project quote
 
-```bash
-oc apply -f ./oc_templates/dc_*
-```
+oc create -f is_quote.yml
+oc create -f build_quote.yml
 
-```bash
-oc new-app quote:v1 --name=ab-v1
-oc new-app quote:v2 --name=ab-v2 -e QUOTE_BACKEND=DB
-```
+oc new-app quote:v1 --name=ab-v1 --allow-missing-imagestream-tags=true
+oc new-app quote:v2 --name=ab-v2 -e QUOTE_BACKEND=DB --allow-missing-imagestream-tags=true
 
-```bash
-oc apply -f ./oc_templates/route_*
+oc create -f svc_ab.yml
+oc create -f route_quote.yml
+
+# create postgres database via the GUI
 ```
 
 ## Env
