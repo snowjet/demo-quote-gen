@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: quote
+  labels:
+    app: ab-v1
+  annotations:
+    haproxy.router.openshift.io/balance: roundrobin
+spec:
+  host: quote.apps.shared.na.openshift.opentlc.com
+  subdomain: ''
+  to:
+    kind: Service
+    name: ab-v1
+    weight: 100
+  alternateBackends:
+    - kind: Service
+      name: ab-v2
+      weight: 0
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

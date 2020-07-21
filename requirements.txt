@@ -6,4 +6,5 @@ requests
 six
 flask
 cryptography
+psycopg2-binary
 flask-restx

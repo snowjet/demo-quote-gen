@@ -7,9 +7,9 @@ from flask import url_for
 
 from six.moves.urllib.parse import urlencode
 
-from core.config import LOG_LEVEL
+from core.config import LOG_LEVEL, QUOTE_BACKEND
 from core.log import logger
-from core.quote_gen import quote_gen
+from core.quote import get_quote
 
 logger.info("Config Imported", LOG_LEVEL=LOG_LEVEL)
 
@@ -20,12 +20,16 @@ else:
 
 app = Flask(__name__)
 
+if QUOTE_BACKEND == 'DB':
+    from db.db_utils import load_schema_safe
+    msg = load_schema_safe()
+    logger.info("Setup DB", load_schema_msg=msg)
 
 @app.route("/")
 def home():
-    name, quote = quote_gen()
+    name, quote, backend = get_quote()
     logger.info("Returned Quote:", author=name, quote=quote)
-    return jsonify(name=name, quote=quote)
+    return jsonify(name=name, quote=quote, backend=backend)
 
 
 if __name__ == "__main__":
