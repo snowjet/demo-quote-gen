@@ -1,7 +1,11 @@
 # demo-quote-gen
 Quote Generator
 
-# Load balancing for A/B testing
+## CodeReady Workspaces
+
+[![Contribute](https://che.openshift.io/factory/resources/factory-contribute.svg)](https://codeready-crw.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
+
+## Load balancing for A/B testing
 
 ```bash
 oc new-project quote
@@ -18,10 +22,5 @@ oc create -f route_quote.yml
 
 # create postgres database via the GUI
 ```
-
-# CodeReady Workspaces
-
-[Develop in CodeReady Workspaces](https://codeready-crw.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
-
 
 
