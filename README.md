@@ -21,7 +21,7 @@ oc create -f route_quote.yml
 
 # CodeReady Workspaces
 
-[Develop in CodeReady Workspaces](https://codeready-crw.apps-crc.testingf?url=https://github.com/snowjet/demo-quote-gen)
+[Develop in CodeReady Workspaces](https://codeready-crw.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
 
 
 
