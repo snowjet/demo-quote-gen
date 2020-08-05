@@ -19,5 +19,9 @@ oc create -f route_quote.yml
 # create postgres database via the GUI
 ```
 
-## Env
+# CodeReady Workspaces
+
+[Develop in CodeReady Workspaces](https://codeready-crw.apps-crc.testingf?url=https://github.com/snowjet/demo-quote-gen)
+
+
 
