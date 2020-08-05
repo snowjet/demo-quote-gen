@@ -27,6 +27,6 @@ quotes = [
 ]
 
 
-def quote_gen():
+def get_quote_random():
     index = int(random.randint(0, len(quotes) - 1))
     return quotes[index]["name"], quotes[index]["quote"]

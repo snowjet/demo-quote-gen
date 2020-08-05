@@ -1,0 +1,59 @@
+apiVersion: 1.0.0
+metadata:
+  name: quotegen
+projects:
+  - name: quotegen-backend
+    source:
+      location: 'https://github.com/snowjet/demo-quote-gen.git'
+      type: git
+      branch: dev
+components:
+  - id: ms-python/python/latest
+    memoryLimit: 512Mi
+    preferences:
+      python.globalModuleInstallation: true
+    type: chePlugin
+  - mountSources: true
+    endpoints:
+      - name: web
+        port: 8080
+        attributes:
+          protocol: http
+          public: 'true'
+          discoverable: 'false'
+    memoryLimit: 512Mi
+    type: dockerimage
+    alias: python
+    image: 'quay.io/eclipse/che-python-3.7:nightly'
+  - endpoints:
+      - name: postgres
+        port: 5432
+        attributes:
+          discoverable: 'true'
+          public: 'false'
+    memoryLimit: 512Mi
+    type: dockerimage
+    volumes:
+      - name: pg-storage
+        containerPath: /var/lib/postgresql/data
+    image: postgres
+    env:
+      - value: postgres
+        name: POSTGRES_USER
+      - value: postgres
+        name: POSTGRES_PASSWORD
+      - value: quotes
+        name: POSTGRES_DB
+commands:
+  - name: setup deps
+    actions:
+      - type: exec
+        component: python
+        command: pip install --user -r requirements.txt
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend"
+  - name: run-debug-db
+    actions:
+      - type: exec
+        component: python
+        command: export LOG_LEVEL="DEBUG" && export QUOTE_BACKEND="DB" && python wsgi.py 
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend"
