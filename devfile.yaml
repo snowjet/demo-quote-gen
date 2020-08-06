@@ -1,6 +1,6 @@
 apiVersion: 1.0.0
 metadata:
-  name: quotegen
+  name: quotegen-
 projects:
   - name: quotegen-backend
     source:
