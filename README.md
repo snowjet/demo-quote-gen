@@ -3,7 +3,7 @@ Quote Generator
 
 ## CodeReady Workspaces
 
-[![Contribute](https://che.openshift.io/factory/resources/factory-contribute.svg)](https://codeready-crw.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
+[![Contribute](https://che.openshift.io/factory/resources/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
 
 ## Load balancing for A/B testing
 
