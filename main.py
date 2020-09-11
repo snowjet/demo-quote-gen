@@ -1,11 +1,6 @@
-from flask import Flask
-from flask import jsonify
-from flask import redirect
-from flask import render_template
-from flask import session
-from flask import url_for
-
-from six.moves.urllib.parse import urlencode
+from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 from core.config import LOG_LEVEL, QUOTE_BACKEND
 from core.log import logger
@@ -18,19 +13,19 @@ if LOG_LEVEL == "DEBUG":
 else:
     DEBUG = False
 
-app = Flask(__name__)
+app = FastAPI()
 
-if QUOTE_BACKEND == 'DB':
+if QUOTE_BACKEND == "DB":
     from db.db_utils import load_schema_safe
+
     msg = load_schema_safe()
     logger.info("Setup DB", load_schema_msg=msg)
 
-@app.route("/")
-def home():
+
+@app.get("/")
+async def home():
     name, quote, backend = get_quote()
-    logger.info("Returned Quote:", author=name, quote=quote)
-    return jsonify(name=name, quote=quote, backend=backend)
-
-
-if __name__ == "__main__":
-    app.run(debug=DEBUG, host="0.0.0.0", port=8080)
+    msg_dict = {"name": name, "quote": quote, "backend": backend}
+    msg = jsonable_encoder(msg_dict)
+    logger.info("Returned Quote:", quute=msg_dict)
+    return JSONResponse(content=msg)

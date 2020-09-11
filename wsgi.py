@@ -1,10 +1,11 @@
-from main import app as application
+import uvicorn
+
 from core.config import LOG_LEVEL
 
 if LOG_LEVEL == "DEBUG":
-    DEBUG = True
+    DEBUG = "debug"
 else:
-    DEBUG = False
+    DEBUG = "info"
 
 if __name__ == "__main__":
-    application.run(debug=DEBUG, host="0.0.0.0", port=8080)
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, log_level=DEBUG)

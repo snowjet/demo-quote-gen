@@ -1,11 +1,23 @@
 # demo-quote-gen
-Quote Generator
+
+This is a simple Quote Generator that returns famous quotes from either a JSON list backend or from a postgresql database. 
+
+For example:
+
+```json
+{
+ "backend":"list",
+ "name":"Benjamin Franklin",
+ "quote":"Tell me and I forget.  Teach me and I remember.  Involve me and I learn."
+}
+```
+
 
 ## CodeReady Workspaces
 
 [![Contribute](https://che.openshift.io/factory/resources/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
 
-## Load balancing for A/B testing
+## How to configure Kubernetes to load balancing for A/B testing
 
 ```bash
 oc new-project quote
