@@ -2,9 +2,7 @@ import pytest
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--db", action="store_true", default=False, help="run DB test"
-    )
+    parser.addoption("--db", action="store_true", default=False, help="run DB test")
 
 
 def pytest_configure(config):
@@ -20,7 +18,7 @@ def pytest_collection_modifyitems(config, items):
         skip_test = "db"
     else:
         skip_msg = "run json tests"
-        skip_test = "db" 
+        skip_test = "db"
 
     skip_mark = pytest.mark.skip(reason=skip_msg)
 

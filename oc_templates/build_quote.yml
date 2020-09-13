@@ -10,8 +10,9 @@ spec:
       name: 'quote:v1'
   source:
     git:
-      ref: database
+      ref: master
       uri: 'https://github.com/snowjet/demo-quote-gen.git'
+    contextDir: quotegen
     type: Git
   strategy:
     type: Source
@@ -20,7 +21,6 @@ spec:
         kind: ImageStreamTag
         name: 'python:latest'
         namespace: openshift
-      env: []
   successfulBuildsHistoryLimit: 2
   failedBuildsHistoryLimit: 1      
   triggers:
@@ -39,8 +39,9 @@ spec:
       name: 'quote:v2'
   source:
     git:
-      ref: database
+      ref: master
       uri: 'https://github.com/snowjet/demo-quote-gen.git'
+    contextDir: quotegen      
     type: Git
   strategy:
     type: Source
@@ -48,8 +49,7 @@ spec:
       from:
         kind: ImageStreamTag
         name: 'python:latest'
-        namespace: openshift
-      env: []
+        namespace: openshift  
   successfulBuildsHistoryLimit: 2
   failedBuildsHistoryLimit: 1   
   triggers:

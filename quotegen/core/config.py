@@ -15,7 +15,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "")
 """Test if Database Schema path is valid and exists"""
 DB_SCHEMA_PATH = pathlib.Path.cwd().joinpath("db", "db_schema", "initdb.sql")
 if os.getenv("DB_SCHEMA_PATH", None) is not None:
-    test_db_env_path =  pathlib.Path(os.getenv("DB_SCHEMA_PATH"))
+    test_db_env_path = pathlib.Path(os.getenv("DB_SCHEMA_PATH"))
 
     if test_db_env_path.is_file():
         DB_SCHEMA_PATH = test_db_env_path

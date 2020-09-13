@@ -6,10 +6,12 @@ from core.config import QUOTE_BACKEND
 
 if QUOTE_BACKEND == "DB":
     from crud.quotes_db import QuoteDB
+
     quotes = QuoteDB()
     backend = "Database"
 else:
     from crud.quotes_list import QuotesList
+
     quotes = QuotesList()
     backend = "list"
 
