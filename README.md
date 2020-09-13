@@ -15,7 +15,7 @@ For example:
 
 ## CodeReady Workspaces
 
-[![Contribute](https://che.openshift.io/factory/resources/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
+[![Contribute](images/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
 
 ## How to configure Kubernetes to load balancing for A/B testing
 
@@ -31,8 +31,8 @@ oc new-app quote:v2 --name=ab-v2 -e QUOTE_BACKEND=DB --allow-missing-imagestream
 
 oc create -f svc_ab.yml
 oc create -f route_quote.yml
+```
 
 # create postgres database via the GUI
-```
 
 

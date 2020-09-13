@@ -5,7 +5,7 @@ from core.log import logger
 
 def return_json_quotes(filepath):
 
-    logger.debug("Reading JSON Quotes from file")
+    logger.debug("Reading JSON Quotes from file", filepath=filepath)
     with open(filepath, mode="r") as fid:
         quotes_as_json = json.load(fid)
 

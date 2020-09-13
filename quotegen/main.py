@@ -27,5 +27,5 @@ async def home():
     name, quote, backend = get_quote()
     msg_dict = {"name": name, "quote": quote, "backend": backend}
     msg = jsonable_encoder(msg_dict)
-    logger.info("Returned Quote:", quute=msg_dict)
+    logger.info("Returned Quote:", qoute=msg_dict)
     return JSONResponse(content=msg)

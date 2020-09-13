@@ -1,0 +1,16 @@
+{
+    "quotes":[
+        {
+            "name":"Q1",
+            "quote":"Q1Quote"
+        },
+        {
+            "name":"Q2",
+            "quote":"Q2Quote"
+        },
+        {
+            "name":"Q3",
+            "quote":"Q3Quote"
+        }
+    ]
+}

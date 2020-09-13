@@ -3,6 +3,7 @@ import os
 import psycopg2
 
 from core.log import logger
+from core.config import DB_SCHEMA_PATH
 from db.database import DataBase
 
 logger.info("Get DB instance")
@@ -49,8 +50,8 @@ def load_schema_safe():
     if not table_exists[0][0]:
         return_msg = "Schema Not Found - Adding schema"
         logger.info(return_msg)
-        db_schema = os.path.join(os.path.dirname(__file__), "db_schema/initdb.sql")
-        sql_file = open(db_schema, "r")
+
+        sql_file = open(DB_SCHEMA_PATH, "r")
         cursor.execute(sql_file.read())
     else:
         return_msg = "tables already has a schema"
