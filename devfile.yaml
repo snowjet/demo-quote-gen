@@ -50,10 +50,10 @@ commands:
       - type: exec
         component: python
         command: pip install --user -r requirements.txt
-        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend"
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen/quotegen-backend"
   - name: run-debug-db
     actions:
       - type: exec
         component: python
         command: export LOG_LEVEL="DEBUG" && export QUOTE_BACKEND="DB" && python wsgi.py 
-        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend"
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen/quotegen-backend"

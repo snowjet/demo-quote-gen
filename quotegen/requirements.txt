@@ -1,10 +1,9 @@
-gunicorn
+uvicorn
 daiquiri
 python-multipart
 python-dotenv
 requests
 six
-flask
 cryptography
 psycopg2-binary
-flask-restx
+fastapi[all]
