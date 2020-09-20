@@ -36,14 +36,14 @@ components:
     volumes:
       - name: pg-storage
         containerPath: /var/lib/postgresql/data
-    image: postgres
+    image: registry.redhat.io/rhel8/postgresql-12
     env:
+      - value: user
+        name: POSTGRESQL_USER
       - value: postgres
-        name: POSTGRES_USER
-      - value: postgres
-        name: POSTGRES_PASSWORD
+        name: POSTGRESQL_PASSWORD
       - value: quotes
-        name: POSTGRES_DB
+        name: POSTGRESQL_DATABASE
 commands:
   - name: setup deps
     actions:

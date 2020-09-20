@@ -1,0 +1,23 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git-quotegen
+spec:
+  params:
+    - name: url
+      value: 'https://github.com/snowjet/demo-quote-gen.git'
+    - name: revision
+      value: master
+  type: git
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  generation: 1
+  name: image-quotegen
+spec:
+  params:
+    - name: url
+      value: 'image-registry.openshift-image-registry.svc:5000/quote-pipeline/quotegen'
+  type: image

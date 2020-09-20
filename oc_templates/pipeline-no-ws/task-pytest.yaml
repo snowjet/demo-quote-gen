@@ -1,0 +1,67 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: pytest
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/tags: python, pytest
+    tekton.dev/displayName: pytest
+spec:
+  description: >-
+    This task will run pytest on the provided input.
+  params:
+    - name: pythonImage
+      description: python image to use to run pytest
+      type: string
+      default: registry.redhat.io/rhel8/python-38
+    - name: ARGS
+      description: The additional arguments to be used with pytest
+      type: string
+      default: ""
+    - name: SOURCE_PATH
+      description: The path to the source code
+      default: "."
+    - name: REQUIREMENTS_FILE
+      description: The name of the requirements file inside the source location
+      default: "requirements.txt"
+    - name: gitUrl
+      type: string
+      description: The git url 
+      default: $(resources.inputs.source.url)   
+  resources:
+    inputs:
+      - name: source
+        type: git   
+  steps:
+    - name: git-clone
+      image: $(params.pythonImage)
+      script: |
+        export PATH=$PATH:$HOME/.local/bin
+        git clone $(params.gitUrl) /gen-source
+      volumeMounts:
+        - mountPath: /gen-source
+          name: gen-source
+      workingDir: /workspace/source  
+    - name: unit-test
+      image: $(params.pythonImage)
+      script: |
+        export PATH=$PATH:$HOME/.local/bin
+
+        if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
+          pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
+        fi
+
+        pip install pytest
+        
+        cd $(inputs.params.SOURCE_PATH)/
+
+        python -m pytest $(inputs.params.ARGS)
+      volumeMounts:
+        - mountPath: /gen-source
+          name: gen-source
+      workingDir: /gen-source
+  volumes:
+    - emptyDir: {}
+      name: gen-source        
