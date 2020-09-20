@@ -33,7 +33,6 @@ if not DATABASE_URL:
 MAX_CONNECTIONS_COUNT = int(os.getenv("MAX_CONNECTIONS_COUNT", 10))
 MIN_CONNECTIONS_COUNT = int(os.getenv("MIN_CONNECTIONS_COUNT", 10))
 
-print(os.getenv("JSON_QUOTE_PATH", None))
 json_file_path = pathlib.Path.cwd().joinpath("quotes", "quotes.json")
 if os.getenv("JSON_QUOTE_PATH", None) is not None:
     test_env_path = pathlib.Path(os.getenv("JSON_QUOTE_PATH"))
