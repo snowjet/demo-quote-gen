@@ -33,6 +33,7 @@ spec:
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
           pip wheel --wheel-dir ./pypi --cache-dir ./pycache -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
+          pip wheel --wheel-dir ./pypi --cache-dir ./pycache pytest
         fi
 
       workingDir: $(workspaces.source.path)
