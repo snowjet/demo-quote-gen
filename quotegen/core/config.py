@@ -23,7 +23,7 @@ if os.getenv("DB_SCHEMA_PATH", None) is not None:
 if not DATABASE_URL:
     POSTGRES_HOST = os.getenv("POSTGRESQL_SERVICE_HOST", "127.0.0.1")
     POSTGRES_PORT = int(os.getenv("POSTGRES_SERVICE_PORT", 5432))
-    POSTGRES_USER = os.getenv("database-user", "postgres")
+    POSTGRES_USER = os.getenv("database-user", "user")
     POSTGRES_PASS = os.getenv("database-password", "postgres")
     POSTGRES_NAME = os.getenv("database-name", "quotes")
 
