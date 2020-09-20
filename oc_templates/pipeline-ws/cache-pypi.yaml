@@ -29,7 +29,6 @@ spec:
         export PATH=$PATH:$HOME/.local/bin
 
         pip install --upgrade pip
-        pip install setuptools
         pip install wheel
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
