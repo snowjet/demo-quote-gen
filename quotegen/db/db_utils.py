@@ -13,7 +13,7 @@ db = DataBase()
 def get_database_connection():
 
     db_conn = db.get_database_connection()
-    
+
     return db_conn
 
 

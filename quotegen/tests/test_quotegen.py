@@ -43,7 +43,7 @@ def test_db():
     json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
     DB_SCHEMA_PATH = pathlib.Path.cwd().joinpath("tests", "quotes", "initdb.sql")
     os.environ.update({"DB_SCHEMA_PATH": str(DB_SCHEMA_PATH), "QUOTE_BACKEND": "DB"})
-    
+
     from crud.read_json import return_json_quotes
     from main import app
 

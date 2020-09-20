@@ -23,7 +23,6 @@ class DataBase:
         logger.debug("DB Conn Params", conn=self.db_conn.dsn)
         logger.info("DB connected")
 
-
     def get_database_connection(self):
 
         # Read-only integer attribute:
