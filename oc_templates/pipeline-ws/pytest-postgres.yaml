@@ -26,63 +26,57 @@ spec:
     - name: REQUIREMENTS_FILE
       description: The name of the requirements file inside the source location
       default: "requirements.txt"
-    - name: gitUrl
-      type: string
-      description: The git url
-      default: $(resources.inputs.source.url)
     - name: POSTGRES_USER
       description: Username for postgres user
-      default: postgres
+      default: user
     - name: POSTGRES_PASSWORD
       description: Password for postgres password
       default: postgres
     - name: POSTGRES_DB
       description: Password for postgres database
       default: quotes       
-  resources:
-    inputs:
-      - name: source
-        type: git
   sidecars:
     - name: postgres
-      image: postgres
+      image: registry.redhat.io/rhel8/postgresql-12
       env:
         - value: $(params.POSTGRES_USER)
-          name: POSTGRES_USER
+          name: POSTGRESQL_USER
         - value: $(params.POSTGRES_PASSWORD)
-          name: POSTGRES_PASSWORD
+          name: POSTGRESQL_PASSWORD
         - value: $(params.POSTGRES_DB)
-          name: POSTGRES_DB
+          name: POSTGRESQL_DATABASE
       volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: pg-storage             
+        - mountPath: /var/lib/pgsql/data
+          name: pg-storage
   steps:
-    - name: unit-test
+    - name: unit-test-with-db
       image: $(params.pythonImage)
       script: |
         export PATH=$PATH:$HOME/.local/bin
-        export QUOTE_BACKEND="DB"
+
+        pip install --upgrade pip
+        pip install wheel        
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
-          pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
+          install --no-index --find-links=./pypi --cache-dir ./pycache -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE) 
         fi
 
         pip install pytest
-
+        
         cd $(inputs.params.SOURCE_PATH)/
 
-        python -m pytest $(inputs.params.ARGS)
-      workingDir: $(workspaces.storage.path)
+        python -m pytest -q --db $(inputs.params.ARGS)
       env:
         - value: $(params.POSTGRES_USER)
           name: POSTGRES_USER
         - value: $(params.POSTGRES_PASSWORD)
           name: POSTGRES_PASSWORD
         - value: $(params.POSTGRES_DB)
-          name: POSTGRES_DB  
+          name: POSTGRES_DB          
+      workingDir: $(workspaces.source.path)
   workspaces:
     - description: Expect git repo to be here
       name: source
   volumes:
     - emptyDir: {}
-      name: pg-storage    
+      name: pg-storage

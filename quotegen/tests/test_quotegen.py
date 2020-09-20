@@ -1,13 +1,9 @@
 import pytest
 
 from fastapi.testclient import TestClient
-import sys
 import os
 import pathlib
 import pytest
-import importlib
-import json
-
 
 @pytest.mark.json
 def test_json():

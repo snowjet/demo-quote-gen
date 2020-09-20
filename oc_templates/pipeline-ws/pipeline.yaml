@@ -28,15 +28,14 @@ spec:
           value: quotegen
         - name: REQUIREMENTS_FILE
           value: requirements.txt
-      resources:
-        inputs:
-          - name: source
-            resource: app-source
       runAfter:
-        - git-clone
+        - cache-pypi
       taskRef:
         kind: Task
         name: pytest
+      workspaces:
+        - name: source
+          workspace: workspace
     - name: build
       params:
         - name: BUILDER_IMAGE
@@ -49,8 +48,6 @@ spec:
           value: 'false'
         - name: FORMAT
           value: oci
-        - name: IMAGE
-          value: $(resources.outputs.image.url) 
       resources:
         inputs:
           - name: source
@@ -60,9 +57,10 @@ spec:
             resource: app-image
       runAfter:
         - pytest
+        - pytest-postgres
       taskRef:
         kind: ClusterTask
-        name: buildah
+        name: buildah-pr
     - name: deploy
       params:
         - name: ARGS
@@ -88,12 +86,54 @@ spec:
         - name: sslVerify
           value: 'true'
         - name: deleteExisting
-          value: 'false'
+          value: 'true'
       taskRef:
         kind: ClusterTask
         name: git-clone
       workspaces:
         - name: output
+          workspace: workspace
+    - name: pytest-postgres
+      params:
+        - name: pythonImage
+          value: registry.redhat.io/rhel8/python-38
+        - name: ARGS
+          value: '--db -s -v'
+        - name: SOURCE_PATH
+          value: quotegen
+        - name: REQUIREMENTS_FILE
+          value: requirements.txt
+        - name: gitUrl
+          value: $(resources.inputs.source.url)
+        - name: POSTGRES_USER
+          value: user
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_DB
+          value: quotes
+      runAfter:
+        - cache-pypi
+      taskRef:
+        kind: Task
+        name: pytest-postgres
+      workspaces:
+        - name: source
+          workspace: workspace
+    - name: cache-pypi
+      params:
+        - name: pythonImage
+          value: registry.redhat.io/rhel8/python-38
+        - name: SOURCE_PATH
+          value: quotegen
+        - name: REQUIREMENTS_FILE
+          value: requirements.txt
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: cache-pypi
+      workspaces:
+        - name: source
           workspace: workspace
   workspaces:
     - name: workspace
