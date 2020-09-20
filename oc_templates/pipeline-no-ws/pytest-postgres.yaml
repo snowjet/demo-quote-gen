@@ -70,7 +70,6 @@ spec:
       image: $(params.pythonImage)
       script: |
         export PATH=$PATH:$HOME/.local/bin
-        export QUOTE_BACKEND="DB"
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
           pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
@@ -80,7 +79,7 @@ spec:
         
         cd $(inputs.params.SOURCE_PATH)/
 
-        python -m pytest --db $(inputs.params.ARGS)
+        python -m pytest -q --db $(inputs.params.ARGS)
       env:
         - value: $(params.POSTGRES_USER)
           name: POSTGRES_USER
