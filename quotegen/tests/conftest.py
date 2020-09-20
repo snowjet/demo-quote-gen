@@ -13,9 +13,8 @@ def pytest_configure(config):
 def pytest_collection_modifyitems(config, items):
 
     if config.getoption("--db"):
-        # --runslow given in cli: do not skip slow tests
         skip_msg = "run DB tests"
-        skip_test = "db"
+        skip_test = "json"
     else:
         skip_msg = "run json tests"
         skip_test = "db"

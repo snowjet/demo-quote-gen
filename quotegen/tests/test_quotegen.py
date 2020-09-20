@@ -12,13 +12,15 @@ import json
 @pytest.mark.json
 def test_json():
 
+    print("Running JSON backend tests")
+
     json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
     os.environ.update({"JSON_QUOTE_PATH": json_file_path})
 
     from crud.read_json import return_json_quotes
     from main import app
 
-    quotes_list = return_json_quotes(json_file_path)
+    test_quotes_list = return_json_quotes(json_file_path)
 
     client = TestClient(app)
 
@@ -29,16 +31,23 @@ def test_json():
     del msg["backend"]
     print(msg)
 
-    if msg not in quotes_list["quotes"]:
+    if msg not in test_quotes_list["quotes"]:
         assert False
 
 
 @pytest.mark.db
 def test_db():
 
-    json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "initdb.sql"))
-    os.environ["QUOTE_BACKEN"] = "DB"
+    print("Running DB backend tests")
+
+    json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
+    DB_SCHEMA_PATH = pathlib.Path.cwd().joinpath("tests", "quotes", "initdb.sql")
+    os.environ.update({"DB_SCHEMA_PATH": str(DB_SCHEMA_PATH), "QUOTE_BACKEND": "DB"})
+    
+    from crud.read_json import return_json_quotes
     from main import app
+
+    test_quotes_list = return_json_quotes(json_file_path)
 
     client = TestClient(app)
 
@@ -49,5 +58,5 @@ def test_db():
     del msg["backend"]
     print(msg)
 
-    if msg not in quotes_list["quotes"]:
+    if msg not in test_quotes_list["quotes"]:
         assert False
