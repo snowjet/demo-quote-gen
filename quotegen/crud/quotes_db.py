@@ -3,7 +3,7 @@ from db.db_utils import get_database_connection
 
 
 class QuoteDB:
-    def __init(self):
+    def __init__(self):
         self.db_conn = get_database_connection()
 
     def get_quotes(self):

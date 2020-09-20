@@ -55,5 +55,5 @@ commands:
     actions:
       - type: exec
         component: python
-        command: export LOG_LEVEL="DEBUG" && export QUOTE_BACKEND="DB" && python wsgi.py 
+        command: export LOG_LEVEL="DEBUG" && export QUOTE_BACKEND="DB" && python app.py 
         workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"

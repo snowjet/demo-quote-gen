@@ -11,22 +11,15 @@ db = DataBase()
 
 
 def get_database_connection():
-    # Read-only integer attribute:
-    # 0 if the connection is open
-    # nonzero if it is closed or broken
-    conn_status = db.db_conn.closed
-    logger.debug("DB connection status", connection_status=conn_status)
 
-    if conn_status:
-        logger.info("DB is not connected - reconnecting")
-        db.connect_to_db()
-
-    return db.db_conn
+    db_conn = db.get_database_connection()
+    
+    return db_conn
 
 
 def disconnect_from_database():
     logger.info("Closing DB connection")
-    db.db_conn.close()
+    db.disconnect_from_database()
     logger.info("Closed DB connection")
 
 
