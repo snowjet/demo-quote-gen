@@ -8,7 +8,7 @@ COPY quotegen /usr/src/app/quotegen
 COPY pypi /tmp/pypi
 
 WORKDIR /usr/src/app/quotegen
-RUN pip install -U pip && \
+RUN pip install -U pip wheel && \
     pip install --no-index --find-links=/tmp/pypi --no-cache-dir -r requirements.txt && \
     rm -rf /tmp/pypi
 
