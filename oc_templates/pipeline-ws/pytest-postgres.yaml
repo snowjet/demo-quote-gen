@@ -38,7 +38,7 @@ spec:
   sidecars:
     - name: postgres
       image: registry.redhat.io/rhel8/postgresql-12
-      env:
+      env:    
         - value: $(params.POSTGRES_USER)
           name: POSTGRESQL_USER
         - value: $(params.POSTGRES_PASSWORD)
@@ -67,12 +67,14 @@ spec:
 
         python -m pytest -q --db $(inputs.params.ARGS)
       env:
+        - name: POSTGRESQL_SERVICE_HOST
+          value: 127.0.0.1        
         - value: $(params.POSTGRES_USER)
-          name: POSTGRES_USER
+          name: POSTGRESQL_USER
         - value: $(params.POSTGRES_PASSWORD)
-          name: POSTGRES_PASSWORD
+          name: POSTGRESQL_PASSWORD
         - value: $(params.POSTGRES_DB)
-          name: POSTGRES_DB          
+          name: POSTGRESQL_DATABASE      
       workingDir: $(workspaces.source.path)
   workspaces:
     - description: Expect git repo to be here
