@@ -18,7 +18,7 @@ spec:
     - name: app-image
       type: image
   tasks:
-    - name: pytest
+    - name: pytest-ws
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
@@ -93,7 +93,7 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
-    - name: pytest-postgres
+    - name: pytest-postgres-ws
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38

@@ -1,7 +1,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: quote
+  name: quotegen
   labels:
     app: ab-v1
   annotations:

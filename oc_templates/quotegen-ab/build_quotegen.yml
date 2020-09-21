@@ -2,12 +2,12 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: quote-v1
+  name: quotegen-v1
 spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'quote:v1'
+      name: 'quotegen:v1'
   source:
     git:
       ref: master
@@ -31,12 +31,12 @@ spec:
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: quote-v2
+  name: quotegen-v2
 spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'quote:v2'
+      name: 'quotegen:v2'
   source:
     git:
       ref: master
