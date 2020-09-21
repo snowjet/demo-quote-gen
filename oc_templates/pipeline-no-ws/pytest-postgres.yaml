@@ -26,10 +26,6 @@ spec:
     - name: REQUIREMENTS_FILE
       description: The name of the requirements file inside the source location
       default: "requirements.txt"
-    - name: gitUrl
-      type: string
-      description: The git url
-      default: $(resources.inputs.source.url)
     - name: POSTGRES_USER
       description: Username for postgres user
       default: user
@@ -57,19 +53,12 @@ spec:
         - mountPath: /var/lib/pgsql/data
           name: pg-storage
   steps:
-    - name: git-clone
-      image: $(params.pythonImage)
-      script: |
-        export PATH=$PATH:$HOME/.local/bin
-        git clone $(params.gitUrl) /gen-source
-      volumeMounts:
-        - mountPath: /gen-source
-          name: gen-source
-      workingDir: /workspace/source 
     - name: unit-test-with-db
       image: $(params.pythonImage)
       script: |
         export PATH=$PATH:$HOME/.local/bin
+
+        pip install --upgrade pip wheel
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
           pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
@@ -89,12 +78,7 @@ spec:
           name: POSTGRESQL_PASSWORD
         - value: $(params.POSTGRES_DB)
           name: POSTGRESQL_DATABASE
-      volumeMounts:
-        - mountPath: /gen-source
-          name: gen-source
-      workingDir: /gen-source
-  volumes:
-    - emptyDir: {}
-      name: gen-source
+      workingDir: /workspace/source
+  volumes:      
     - emptyDir: {}
       name: pg-storage

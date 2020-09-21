@@ -54,8 +54,7 @@ spec:
       script: |
         export PATH=$PATH:$HOME/.local/bin
 
-        pip install --upgrade pip
-        pip install wheel        
+        pip install --upgrade pip wheel        
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
           pip install --no-index --find-links=./pypi --cache-dir ./pycache -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE) 

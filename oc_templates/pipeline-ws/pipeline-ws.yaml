@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -5,7 +6,7 @@ metadata:
   labels:
     pipeline.openshift.io/runtime: python
     pipeline.openshift.io/type: openshift
-  name: quotegen
+  name: quotegen-ws
 spec:
   params:
     - default: quotegen
@@ -29,50 +30,39 @@ spec:
         - name: REQUIREMENTS_FILE
           value: requirements.txt
       runAfter:
-        - cache-pypi
+        - cache-pypi-ws
       taskRef:
         kind: Task
-        name: pytest
+        name: pytest-ws
       workspaces:
         - name: source
           workspace: workspace
     - name: build
       params:
+        - name: IMAGE
+          value: >-
+            image-registry.openshift-image-registry.svc:5000/quote-pipeline/quotegen
         - name: BUILDER_IMAGE
           value: registry.redhat.io/rhel8/buildah
+        - name: STORAGE_DRIVER
+          value: overlay
         - name: DOCKERFILE
-          value: ./Dockerfile
+          value: ./Containerfile-ws
         - name: CONTEXT
           value: .
         - name: TLSVERIFY
           value: 'false'
         - name: FORMAT
           value: oci
-      resources:
-        inputs:
-          - name: source
-            resource: app-source
-        outputs:
-          - name: image
-            resource: app-image
       runAfter:
-        - pytest
-        - pytest-postgres
+        - pytest-ws
+        - pytest-postgres-ws
       taskRef:
         kind: ClusterTask
-        name: buildah-pr
-    - name: deploy
-      params:
-        - name: ARGS
-          value:
-            - rollout
-            - status
-            - dc/$(params.DC_NAME)
-      runAfter:
-        - build
-      taskRef:
-        kind: ClusterTask
-        name: openshift-client
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: workspace
     - name: git-clone
       params:
         - name: url
@@ -103,8 +93,6 @@ spec:
           value: quotegen
         - name: REQUIREMENTS_FILE
           value: requirements.txt
-        - name: gitUrl
-          value: $(resources.inputs.source.url)
         - name: POSTGRES_USER
           value: user
         - name: POSTGRES_PASSWORD
@@ -112,14 +100,14 @@ spec:
         - name: POSTGRES_DB
           value: quotes
       runAfter:
-        - cache-pypi
+        - cache-pypi-ws
       taskRef:
         kind: Task
-        name: pytest-postgres
+        name: pytest-postgres-ws
       workspaces:
         - name: source
           workspace: workspace
-    - name: cache-pypi
+    - name: cache-pypi-ws
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
@@ -131,9 +119,21 @@ spec:
         - git-clone
       taskRef:
         kind: Task
-        name: cache-pypi
+        name: cache-pypi-ws
       workspaces:
         - name: source
           workspace: workspace
+    - name: deploy
+      params:
+        - name: ARGS
+          value:
+            - rollout
+            - status
+            - dc/$(params.DC_NAME)
+      runAfter:
+        - build
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client
   workspaces:
     - name: workspace

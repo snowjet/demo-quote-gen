@@ -22,8 +22,6 @@ spec:
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
-        - name: ARGS
-          value: '-s -v'
         - name: SOURCE_PATH
           value: quotegen
         - name: REQUIREMENTS_FILE
@@ -40,11 +38,11 @@ spec:
         - name: BUILDER_IMAGE
           value: registry.redhat.io/rhel8/buildah
         - name: DOCKERFILE
-          value: ./Dockerfile
+          value: ./Containerfile
         - name: CONTEXT
           value: .
         - name: TLSVERIFY
-          value: 'false'
+          value: 'true'
         - name: FORMAT
           value: oci
       resources:
@@ -56,9 +54,31 @@ spec:
             resource: app-image
       runAfter:
         - pytest
+        - pytest-postgres
       taskRef:
         kind: ClusterTask
-        name: buildah
+        name: buildah-pr
+    - name: pytest-postgres
+      params:
+        - name: pythonImage
+          value: registry.redhat.io/rhel8/python-38
+        - name: SOURCE_PATH
+          value: quotegen
+        - name: REQUIREMENTS_FILE
+          value: requirements.txt
+        - name: POSTGRES_USER
+          value: user
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_DB
+          value: quotes
+      resources:
+        inputs:
+          - name: source
+            resource: app-source
+      taskRef:
+        kind: Task
+        name: pytest-postgres
     - name: deploy
       params:
         - name: ARGS
