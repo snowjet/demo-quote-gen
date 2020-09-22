@@ -22,16 +22,23 @@ For example:
 
 There are two Tekton pipelines offered by this applicaiton. One, which utilises a shared workspace and one that doesn't. This demonstrates both the benefit containers can provide to testing and the speed benefits of using workspaces. 
 
-![Pipeline](images/pipeline.png)
+### Pipelines with Workspaces and Caching
+The pipeline below only clones the repo once and pypi modules oncce. This is then used throughout the test and build processes to speed up deployments. The pipeline run *25%* quicker than the non-caching version.
 
-Install the pipelines without workspaces:
-```bash 
-oc apply -f ./oc_templates/pipeline-no-ws/*
-```
+![Pipeline](images/pipeline.png)
 
 Install the pipelines with workspaces:
 ```bash
 oc apply -f ./oc_templates/pipeline-ws/*
+```
+### Pipelines with no caching
+The pipeline below needs to clone and download the pypi modules 3 times, once for each pytest and again for the build. 
+
+![Pipeline](images/pipeline-no-cache.png)
+
+Install the pipelines without workspaces:
+```bash 
+oc apply -f ./oc_templates/pipeline-no-ws/*
 ```
 
 ## create postgres database
