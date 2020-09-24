@@ -29,7 +29,8 @@ The pipeline below only clones the repo once and pypi modules oncce. This is the
 
 Install the pipelines with workspaces:
 ```bash
-oc apply -f ./oc_templates/pipeline-ws/*
+export PROJECT=<namespace>
+oc apply -f ./oc_templates/pipeline-ws
 ```
 ### Pipelines with no caching
 The pipeline below needs to clone and download the pypi modules 3 times, once for each pytest and again for the build. 
@@ -38,7 +39,8 @@ The pipeline below needs to clone and download the pypi modules 3 times, once fo
 
 Install the pipelines without workspaces:
 ```bash 
-oc apply -f ./oc_templates/pipeline-no-ws/*
+export PROJECT=<namespace>
+oc apply -f ./oc_templates/pipeline-no-ws
 ```
 
 ## create postgres database
