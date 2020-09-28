@@ -28,10 +28,14 @@ if not DATABASE_URL:
     POSTGRES_NAME = os.getenv("POSTGRESQL_DATABASE", "quotes")
 
     DATABASE_URL = f"host='{POSTGRES_HOST}' port='{POSTGRES_PORT}' dbname='{POSTGRES_NAME}' user='{POSTGRES_USER}' password='{POSTGRES_PASS}'"
-
-# Placeholder for connection pooling
-MAX_CONNECTIONS_COUNT = int(os.getenv("MAX_CONNECTIONS_COUNT", 10))
-MIN_CONNECTIONS_COUNT = int(os.getenv("MIN_CONNECTIONS_COUNT", 10))
+    SQLALCHEMY_DATABASE_URL = "postgresql://%s:%s@%s/%s" % (
+        POSTGRES_USER,
+        POSTGRES_PASS,
+        POSTGRES_HOST,
+        POSTGRES_NAME,
+    )
+else:
+    SQLALCHEMY_DATABASE_URL = DATABASE_URL
 
 json_file_path = pathlib.Path.cwd().joinpath("quotes", "quotes.json")
 if os.getenv("JSON_QUOTE_PATH", None) is not None:
