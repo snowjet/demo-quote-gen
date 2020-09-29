@@ -18,3 +18,7 @@ class Quote(QuotesBase):
 
     class Config:
         orm_mode = True
+
+
+class QuotesList(BaseModel):
+    quotes: List[QuotesBase]

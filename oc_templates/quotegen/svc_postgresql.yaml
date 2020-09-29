@@ -3,14 +3,14 @@ kind: Service
 apiVersion: v1
 metadata:
   annotations:
-    template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}'
-  name: postgresql
+    template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="database")].port}'
+  name: database
 spec:
   ports:
-    - name: postgresql
+    - name: database
       protocol: TCP
       port: 5432
       targetPort: 5432
   selector:
-    name: postgresql
+    name: database
   sessionAffinity: None

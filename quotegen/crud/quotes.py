@@ -31,3 +31,16 @@ def create_quote(db: Session, quote: schemas.QuotesCreate):
     db.commit()
     db.refresh(db_quote)
     return db_quote
+
+
+def seed_db(db: Session, quoteList: schemas.QuotesList):
+    if db.query(models.Quotes).first() is None:
+        for quote in quoteList.quotes:
+            create_quote(db=db, quote=quote)
+
+        logger.info("database successfully seeded")
+        logger.debug("databse seesed with", quote=quoteList)
+
+        return True
+
+    return None

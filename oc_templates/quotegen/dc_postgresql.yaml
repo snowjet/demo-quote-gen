@@ -1,10 +1,10 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: postgresql
+  name: database
 annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
-name: postgresql
+name: database
 spec:
   strategy:
     type: Recreate
@@ -16,7 +16,7 @@ spec:
       imageChangeParams:
         automatic: true
         containerNames:
-          - postgresql
+          - database
         from:
           kind: ImageStreamTag
           namespace: openshift
@@ -26,14 +26,14 @@ spec:
   revisionHistoryLimit: 10
   test: false
   selector:
-    name: postgresql
+    name: database
   template:
     metadata:
       labels:
-        name: postgresql
+        name: database
     spec:
       volumes:
-        - name: postgresql-data
+        - name: database-data
           emptyDir: {}
       containers:
         - resources:
@@ -49,7 +49,7 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: postgresql
+          name: database
           livenessProbe:
             exec:
               command:
@@ -61,20 +61,20 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           env:
-            - name: POSTGRESQL_USER
+            - name: database_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgresql
+                  name: database
                   key: database-user
-            - name: POSTGRESQL_PASSWORD
+            - name: database_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql
+                  name: database
                   key: database-password
-            - name: POSTGRESQL_DATABASE
+            - name: database_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: postgresql
+                  name: database
                   key: database-name
           securityContext:
             capabilities: {}
@@ -84,7 +84,7 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: postgresql-data
+            - name: database-data
               mountPath: /var/lib/pgsql/data
           terminationMessagePolicy: File
           image: ''
