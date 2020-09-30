@@ -1,15 +1,16 @@
 # demo-quote-gen
 
-This is a simple Quote Generator that returns famous quotes from either a JSON list backend or from a postgresql database. 
+This is a simple Quote Generator that returns famous quotes from either a sqlite database, postgresql database or mysql (mariadb) database
 
 For example:
 
 ```json
 {
  "backend":"list",
- "name":"Benjamin Franklin",
- "quote":"Tell me and I forget.  Teach me and I remember.  Involve me and I learn."
-}
+ "quotes": {
+    "name":"Benjamin Franklin",
+    "quote":"Tell me and I forget.  Teach me and I remember.  Involve me and I learn."
+}}
 ```
 
 
