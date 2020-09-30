@@ -19,7 +19,7 @@ spec:
     - name: ARGS
       description: The additional arguments to be used with pytest
       type: string
-      default: ""
+      default: "-s -v"
     - name: SOURCE_PATH
       description: The path to the source code
       default: "."
@@ -68,10 +68,10 @@ spec:
         
         cd $(inputs.params.SOURCE_PATH)/
         export DATABASE_TYPE="POSTGRESQL"
-        python -m pytest -q --db $(inputs.params.ARGS)
+        python -m pytest $(inputs.params.ARGS)
       env:
         - name: DATABASE_SERVICE_HOST
-          value: 127.0.0.1        
+          value: 127.0.0.1
         - value: $(params.POSTGRES_USER)
           name: database-user
         - value: $(params.POSTGRES_PASSWORD)

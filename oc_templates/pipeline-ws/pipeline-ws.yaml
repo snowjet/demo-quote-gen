@@ -68,7 +68,7 @@ spec:
         - name: url
           value: 'https://github.com/snowjet/demo-quote-gen.git'
         - name: revision
-          value: master
+          value: sql
         - name: submodules
           value: 'true'
         - name: depth
@@ -88,7 +88,7 @@ spec:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
         - name: ARGS
-          value: '--db -s -v'
+          value: '-s -v'
         - name: SOURCE_PATH
           value: quotegen
         - name: REQUIREMENTS_FILE
