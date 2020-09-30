@@ -2,12 +2,12 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: pytest
+  name: pytest-sqlite
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
-    tekton.dev/tags: python, pytest
-    tekton.dev/displayName: pytest
+    tekton.dev/tags: python, pytest, quotegen
+    tekton.dev/displayName: pytest-sqlite
 spec:
   description: >-
     This task will run pytest on the provided input.
@@ -19,13 +19,14 @@ spec:
     - name: ARGS
       description: The additional arguments to be used with pytest
       type: string
-      default: ""
+      default: "-s -v"
     - name: SOURCE_PATH
       description: The path to the source code
       default: "."
     - name: REQUIREMENTS_FILE
       description: The name of the requirements file inside the source location
       default: "requirements.txt"
+      type: string
   resources:
     inputs:
       - name: source
@@ -46,5 +47,6 @@ spec:
         
         cd $(inputs.params.SOURCE_PATH)/
 
+        export DATABASE_TYPE="sqlite"
         python -m pytest $(inputs.params.ARGS)
       workingDir: /workspace/source

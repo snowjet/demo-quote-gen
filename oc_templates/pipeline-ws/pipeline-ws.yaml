@@ -19,7 +19,7 @@ spec:
     - name: app-image
       type: image
   tasks:
-    - name: pytest-ws
+    - name: pytest-sqlite-ws
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
@@ -33,7 +33,7 @@ spec:
         - cache-pypi-ws
       taskRef:
         kind: Task
-        name: pytest-ws
+        name: pytest-sqlite-ws
       workspaces:
         - name: source
           workspace: workspace
@@ -55,7 +55,7 @@ spec:
         - name: FORMAT
           value: oci
       runAfter:
-        - pytest-ws
+        - pytest-sqlite-ws
         - pytest-postgres-ws
       taskRef:
         kind: ClusterTask

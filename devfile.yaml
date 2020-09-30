@@ -58,7 +58,7 @@ commands:
         command: >-
           export LOG_LEVEL="DEBUG" && 
           export DATABASE_TYPE="sqlite" &&
-          export JSON_QUOTE_PATH=""./quotes/quotes.json" && 
+          export JSON_QUOTE_PATH="./quotes/quotes.json" && 
           python app.py
         workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"        
   - name: run-debug-postgresql
@@ -68,6 +68,6 @@ commands:
         command: >-
           export LOG_LEVEL="DEBUG" && 
           export DATABASE_TYPE="postgresql" && 
-          export JSON_QUOTE_PATH=""./quotes/quotes.json" &&           
+          export JSON_QUOTE_PATH="./quotes/quotes.json" &&           
           python app.py 
         workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"

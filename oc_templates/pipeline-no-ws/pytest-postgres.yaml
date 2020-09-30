@@ -67,17 +67,17 @@ spec:
         pip install pytest
         
         cd $(inputs.params.SOURCE_PATH)/
-
+        export DATABASE_TYPE="POSTGRESQL"
         python -m pytest -q --db $(inputs.params.ARGS)
       env:
-        - name: POSTGRESQL_SERVICE_HOST
+        - name: DATABASE_SERVICE_HOST
           value: 127.0.0.1        
         - value: $(params.POSTGRES_USER)
-          name: POSTGRESQL_USER
+          name: database-user
         - value: $(params.POSTGRES_PASSWORD)
-          name: POSTGRESQL_PASSWORD
+          name: database-password
         - value: $(params.POSTGRES_DB)
-          name: POSTGRESQL_DATABASE
+          name: database-name
       workingDir: /workspace/source
   volumes:      
     - emptyDir: {}
