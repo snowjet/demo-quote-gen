@@ -68,17 +68,17 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           env:
-            - name: database_USER
+            - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
                   name: database
                   key: database-user
-            - name: database_PASSWORD
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: database
                   key: database-password
-            - name: database_DATABASE
+            - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   name: database

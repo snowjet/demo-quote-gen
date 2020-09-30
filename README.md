@@ -57,13 +57,13 @@ oc apply -f ./oc_templates/quotegen/svc_postgresql.yaml
 
 ```
 
-## create application with DB backend
+## create application with postgres backend
 
 ```bash
 
 oc apply -f ./oc_templates/quotegen/is_quotegen.yaml
 oc apply -f ./oc_templates/quotegen/svc_quotegen.yaml
-oc apply -f ./oc_templates/quotegen/dc_quotegen.yaml
+oc apply -f ./oc_templates/quotegen/dc_quotegen_db.yaml
 
 oc expose svc/quotegen
 
