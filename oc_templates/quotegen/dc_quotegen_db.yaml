@@ -58,6 +58,10 @@ spec:
           terminationMessagePolicy: File
           imagePullPolicy: Always
           env:
+            - name: DATABASE_TYPE
+              value: postgresql
+            - name: JSON_QUOTE_PATH
+              value: "./quotes/quotes.json"
             - name: database-user
               valueFrom:
                 secretKeyRef:
