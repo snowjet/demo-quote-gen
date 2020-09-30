@@ -2,6 +2,13 @@ kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
   name: database
+  labels:
+    app: database
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: postgresl
+    app.kubernetes.io/name: database
+    app.kubernetes.io/part-of: quotegen
+    app.openshift.io/version: '12'
 annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
 name: database
