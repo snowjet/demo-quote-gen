@@ -58,7 +58,7 @@ def test_get_quotes():
 
     for quote in msg["quotes"]:
         if quote not in test_quotes_list["quotes"]:
-            print(quote)
+            logger.error("Unknown Quote: " + quote, quote=quote)
             assert False
 
 

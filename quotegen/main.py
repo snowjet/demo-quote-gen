@@ -43,7 +43,6 @@ def add_backend(fieldname: str = "detail", msg: str = None):
 
 
 """ Bootstrap the DB if enviornment path to file is provided """
-print(json_file_path)
 if json_file_path is not None:
     quotes_as_json = return_json_quotes(json_file_path)
 
