@@ -57,10 +57,10 @@ spec:
         pip install --upgrade pip wheel
 
         if [ -e "$(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)" ];then
-          pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
+          pip install --no-index --find-links=./pypi --cache-dir ./pycache -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE) 
         fi
 
-        pip install pytest
+        pip install --no-index --find-links=./pypi --cache-dir ./pycache pytest
         
         cd $(inputs.params.SOURCE_PATH)/
         export DATABASE_TYPE="POSTGRESQL"

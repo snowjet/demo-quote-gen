@@ -14,11 +14,10 @@ QUOTE_BACKEND = os.getenv("QUOTE_BACKEND", "LIST")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if not DATABASE_URL:
-
     DATABASE_TYPE = os.getenv("DATABASE_TYPE", "sqlite").lower()
     if DATABASE_TYPE in ["sqlite", "postgresql", "mysql"]:
 
-        logger.info("Using Databse Type " + DATABASE_TYPE, type=DATABASE_TYPE)
+        logger.info("Using Database Type " + DATABASE_TYPE, type=DATABASE_TYPE)
     else:
         logger.info("Incorrect Databse Type provided using sqlite", type=DATABASE_TYPE)
         DATABASE_TYPE = "sqlite"
@@ -41,6 +40,8 @@ if not DATABASE_URL:
         )
 else:
     SQLALCHEMY_DATABASE_URL = DATABASE_URL
+
+logger.debug("Database URL " + SQLALCHEMY_DATABASE_URL, SQLALCHEMY_DATABASE_URL=SQLALCHEMY_DATABASE_URL)
 
 json_file_path = None
 if os.getenv("JSON_QUOTE_PATH", None) is not None:

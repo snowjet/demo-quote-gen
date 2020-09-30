@@ -61,6 +61,10 @@ def get_all_quotes(db: Session, skip: int = 0, limit: int = 100):
     return quote_list
 
 
+def get_all_quotes_with_id(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Quotes).offset(skip).limit(limit).all()
+
+
 def get_all_quotes_with_ids(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Quotes).offset(skip).limit(limit).all()
 

@@ -77,6 +77,15 @@ async def list_quotes(skip: int = 0, limit: int = 100, db: Session = Depends(get
     return JSONResponse(content=content)
 
 
+@app.get("/quotes/id", response_model=List[schemas.Quote])
+async def get_all_quotes_with_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_all_quotes_with_id(db, skip=skip, limit=limit))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
 @app.get("/quote/id/{id}", response_model=List[schemas.Quote])
 async def get_quote(id: int, db: Session = Depends(get_db)):
 
