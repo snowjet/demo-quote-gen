@@ -19,5 +19,5 @@ metadata:
 spec:
   params:
     - name: url
-      value: 'image-registry.openshift-image-registry.svc:5000/$(PROJECT)/quotegen'
+      value: image-registry.openshift-image-registry.svc:5000/quote-pipeline/quotegen
   type: image

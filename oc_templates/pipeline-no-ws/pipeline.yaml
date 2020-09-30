@@ -57,7 +57,7 @@ spec:
         - pytest-postgres
       taskRef:
         kind: ClusterTask
-        name: buildah
+        name: buildah-pr
     - name: pytest-postgres
       params:
         - name: pythonImage
