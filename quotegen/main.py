@@ -6,7 +6,7 @@ from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
 
-from core.config import LOG_LEVEL, json_file_path
+from core.config import json_file_path
 from core.log import logger
 
 from sqlalchemy.orm import Session
@@ -17,13 +17,6 @@ from db import models, schemas
 from db.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
-
-logger.info("Config Imported", LOG_LEVEL=LOG_LEVEL)
-
-if LOG_LEVEL == "DEBUG":
-    DEBUG = True
-else:
-    DEBUG = False
 
 app = FastAPI()
 sql_drivername = str(engine.url.drivername)
@@ -60,9 +53,10 @@ if json_file_path is not None:
     quoteList = schemas.QuotesList(quotes=quotes_as_json["quotes"])
     if quotesCRUD.seed_db(db=db_session, quoteList=quoteList) is None:
         logger.info("DB Seed Unsuccessful")
+    else:
+        logger.info("database successfully seeded")
 
     db_session.close()
-    logger.info("database successfully seeded")
 
 
 @app.get("/", response_model=List[schemas.Quote])
