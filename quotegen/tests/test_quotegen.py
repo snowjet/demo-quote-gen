@@ -5,55 +5,158 @@ import os
 import pathlib
 import pytest
 
+json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
+os.environ.update({"JSON_QUOTE_PATH": json_file_path})
 
-@pytest.mark.json
-def test_json():
+from crud.read_json import return_json_quotes
+from main import app
+from core.log import logger
 
-    print("Running JSON backend tests")
+test_quotes_list = return_json_quotes(json_file_path)
+client = TestClient(app)
 
-    json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
-    os.environ.update({"JSON_QUOTE_PATH": json_file_path})
 
-    from crud.read_json import return_json_quotes
-    from main import app
+def test_get_quotes():
 
-    test_quotes_list = return_json_quotes(json_file_path)
+    logger.info("Running '/' tests")
 
-    client = TestClient(app)
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
 
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
+
+    logger.info("Get '/'")
     response = client.get("/")
     assert response.status_code == 200
 
     msg = response.json()
     del msg["backend"]
-    print(msg)
+    logger.info("Quote Received " + str(msg["quotes"]))
 
-    if msg not in test_quotes_list["quotes"]:
+    if msg["quotes"] not in test_quotes_list["quotes"]:
         assert False
 
 
-@pytest.mark.db
-def test_db():
+def test_get_quotes():
 
-    print("Running DB backend tests")
+    logger.info("Running '/quotes' tests")
 
-    json_file_path = str(pathlib.Path.cwd().joinpath("tests", "quotes", "quotes.json"))
-    DB_SCHEMA_PATH = pathlib.Path.cwd().joinpath("tests", "quotes", "initdb.sql")
-    os.environ.update({"DB_SCHEMA_PATH": str(DB_SCHEMA_PATH), "QUOTE_BACKEND": "DB"})
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
 
-    from crud.read_json import return_json_quotes
-    from main import app
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
 
-    test_quotes_list = return_json_quotes(json_file_path)
-
-    client = TestClient(app)
-
-    response = client.get("/")
+    logger.info("Get '/quotes'")
+    response = client.get("/quotes")
     assert response.status_code == 200
 
     msg = response.json()
     del msg["backend"]
-    print(msg)
+    logger.info("Quote Received " + str(msg["quotes"]))
 
-    if msg not in test_quotes_list["quotes"]:
-        assert False
+    for quote in msg["quotes"]:
+        if quote not in test_quotes_list["quotes"]:
+            print(quote)
+            assert False
+
+
+def test_get_quote_by_id():
+
+    logger.info("Running '/quote/id/{id}' tests")
+
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
+
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
+
+    size_of_quotes = len(test_quotes_list['quotes'])
+    for id in range(0, size_of_quotes):
+
+        id = id + 1
+        logger.info("Get '/quote/id/" + str(id) + "'")
+        response = client.get("/quote/id/" + str(id))
+        assert response.status_code == 200
+
+        msg = response.json()
+        del msg["backend"]
+        logger.info("Quote Received " + str(msg["quotes"]))
+
+        if msg["quotes"] not in test_quotes_list["quotes"]:
+            assert False
+
+
+def test_get_quote_by_name():
+
+    logger.info("Running '/quote/name/{name}' tests")
+
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
+
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
+
+    for quote in test_quotes_list['quotes']:
+        logger.info("Get '/quote/name/" + quote['name'] + "'")
+        response = client.get("/quote/name/" + quote['name'] )
+        assert response.status_code == 200
+
+        msg = response.json()
+        del msg["backend"]
+        logger.info(str(quote))
+        logger.info("Quote Received " + str(msg["quotes"]))
+
+        if msg["quotes"] != quote:
+            assert False
+
+
+def test_delete_quote_by_id():
+
+    logger.info("Running '/quote/id/{id}' tests")
+
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
+
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
+
+    size_of_quotes = len(test_quotes_list['quotes'])
+    for id in range(0, size_of_quotes):
+
+        id = id + 1
+        logger.info("Get '/quote/id/" + str(id) + "'")
+        response = client.get("/quote/id/" + str(id))
+        assert response.status_code == 200
+
+        msg = response.json()
+        del msg["backend"]
+        logger.info("Quote Received " + str(msg["quotes"]))
+
+        if msg["quotes"] not in test_quotes_list["quotes"]:
+            assert False
+
+
+def test_delete_quote_by_name():
+
+    logger.info("Running '/quote/name/{name}' tests")
+
+    logger.info("Get '/admin/delete_all'")
+    response = client.get("/admin/delete_all")
+
+    logger.info("Post '/seed'")
+    response = client.post("/seed", json=test_quotes_list)
+
+    for quote in test_quotes_list['quotes']:
+        logger.info("Get '/quote/name/" + quote['name'] + "'")
+        response = client.get("/quote/name/" + quote['name'] )
+        assert response.status_code == 200
+
+        msg = response.json()
+        del msg["backend"]
+        logger.info(str(quote))
+        logger.info("Quote Received " + str(msg["quotes"]))
+
+        if msg["quotes"] != quote:
+            assert False

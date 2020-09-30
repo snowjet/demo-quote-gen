@@ -6,6 +6,7 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 if LOG_LEVEL not in ["INFO", "DEBUG"]:
     LOG_LEVEL = "INFO"
 
+
 class quotelogging:
     def __init__(self):
 

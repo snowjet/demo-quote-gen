@@ -33,11 +33,11 @@ def get_db():
         logger.debug("DB Closed")
 
 
-def add_backend(quote):
+def add_backend(fieldname: str = "detail", msg: str = None):
 
-    content = []
-    content.append({"backend": sql_drivername})
-    content.append({"quotes": quote})
+    content = {}
+    content["backend"] = sql_drivername
+    content[fieldname] = msg
 
     return content
 
@@ -60,10 +60,10 @@ if json_file_path is not None:
 
 
 @app.get("/", response_model=List[schemas.Quote])
-async def home(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def quote(db: Session = Depends(get_db)):
 
-    quote = jsonable_encoder(quotesCRUD.get_quotes(db, skip=skip, limit=limit))
-    content = add_backend(quote)
+    quote = jsonable_encoder(quotesCRUD.get_random_quote(db))
+    content = add_backend(fieldname="quotes", msg=quote)
 
     return JSONResponse(content=content)
 
@@ -71,8 +71,26 @@ async def home(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @app.get("/quotes", response_model=List[schemas.Quote])
 async def list_quotes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
-    quote = jsonable_encoder(quotesCRUD.get_quotes(db, skip=skip, limit=limit))
-    content = add_backend(quote)
+    quote = jsonable_encoder(quotesCRUD.get_all_quotes(db, skip=skip, limit=limit))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quote/id/{id}", response_model=List[schemas.Quote])
+async def get_quote(id: int, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_quote_by_id(db, id=id))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quote/name/{name}", response_model=List[schemas.Quote])
+async def get_quote(name: str, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_quote_by_name(db, name=name))
+    content = add_backend(fieldname="quotes", msg=quote)
 
     return JSONResponse(content=content)
 
@@ -86,7 +104,7 @@ def create_quote(quote: schemas.QuotesCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Quote Already Exists")
 
     quote = jsonable_encoder(quotesCRUD.create_quote(db=db, quote=quote))
-    content = add_backend(quote)
+    content = add_backend(fieldname="quotes", msg=quote)
 
     return JSONResponse(content=content)
 
@@ -96,5 +114,16 @@ def seed_db(quoteList: schemas.QuotesList, db: Session = Depends(get_db)):
     if quotesCRUD.seed_db(db=db, quoteList=quoteList) is None:
         raise HTTPException(status_code=400, detail="DB Seed Unsuccessful")
 
-    content = {"detail": "database successfully seeded"}
+    msg = "database successfully seeded"
+    content = add_backend(fieldname="detail", msg=msg)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/admin/delete_all", response_model=List[schemas.Quote])
+async def delete_all_quotes(db: Session = Depends(get_db)):
+
+    msg = jsonable_encoder(quotesCRUD.delete_all_quotes(db))
+    content = add_backend(fieldname="detail", msg=msg)
+
     return JSONResponse(content=content)

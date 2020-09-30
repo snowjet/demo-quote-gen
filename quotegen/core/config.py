@@ -30,7 +30,7 @@ if not DATABASE_URL:
     DATABASE_NAME = os.getenv("database-name", "quotes")
 
     if DATABASE_TYPE == "sqlite":
-        SQLALCHEMY_DATABASE_URL = "sqlite:///%s" %(SQLITE_FILE_PATH)
+        SQLALCHEMY_DATABASE_URL = "sqlite:///%s" % (SQLITE_FILE_PATH)
     else:
         SQLALCHEMY_DATABASE_URL = "%s://%s:%s@%s/%s" % (
             DATABASE_TYPE,
