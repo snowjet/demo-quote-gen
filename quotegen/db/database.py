@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from core.config import SQLALCHEMY_DATABASE_URL
 from core.log import logger
 
-
 """ for testing"""
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 

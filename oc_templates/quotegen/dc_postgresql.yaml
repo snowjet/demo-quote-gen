@@ -8,10 +8,7 @@ metadata:
     app.kubernetes.io/instance: postgresl
     app.kubernetes.io/name: database
     app.kubernetes.io/part-of: quotegen
-    app.openshift.io/version: '12'
-annotations:
-    template.alpha.openshift.io/wait-for-ready: "true"
-name: database
+    app.openshift.io/version: 'latest'
 spec:
   strategy:
     type: Recreate
@@ -27,7 +24,7 @@ spec:
         from:
           kind: ImageStreamTag
           namespace: openshift
-          name: 'postgresql:12'
+          name: 'postgresql:latest'
     - type: ConfigChange
   replicas: 1
   revisionHistoryLimit: 10

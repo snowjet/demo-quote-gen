@@ -8,7 +8,7 @@ metadata:
   name: quotegen
 spec:
   params:
-    - default: quotegen
+    - default: backend
       description: name of DeploymentConfig
       name: DC_NAME
       type: string
@@ -57,7 +57,7 @@ spec:
         - pytest-postgres
       taskRef:
         kind: ClusterTask
-        name: buildah-pr
+        name: buildah
     - name: pytest-postgres
       params:
         - name: pythonImage

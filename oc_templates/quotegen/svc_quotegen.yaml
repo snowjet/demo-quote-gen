@@ -2,14 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  annotations:
-    app.openshift.io/vcs-ref: master
-    app.openshift.io/vcs-uri: 'https://github.com/snowjet/demo-quote-gen'
-  name: quotegen
+  name: backend
   labels:
-    app: quotegen
-    app.kubernetes.io/component: quotegen
-    app.kubernetes.io/instance: quotegen
+    app: backend
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: backend
     app.kubernetes.io/name: python
     app.kubernetes.io/part-of: quotegen
     app.openshift.io/runtime: python
@@ -21,6 +18,6 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    app: quotegen
-    deploymentconfig: quotegen
+    app: backend
+    deploymentconfig: backend
   sessionAffinity: None

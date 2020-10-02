@@ -5,15 +5,16 @@ metadata:
   annotations:
     app.openshift.io/vcs-ref: master
     app.openshift.io/vcs-uri: 'https://github.com/snowjet/demo-quote-gen'
-  name: quotegen
+    app.openshift.io/connects-to: 'database'
+  name: backend
   labels:
-    app: quotegen
-    app.kubernetes.io/component: quotegen
-    app.kubernetes.io/instance: quotegen
+    app: backend
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: backend
     app.kubernetes.io/name: python
     app.kubernetes.io/part-of: quotegen
     app.openshift.io/runtime: python
-    app.openshift.io/runtime-version: '3.6'
+    app.openshift.io/runtime-version: '3.8'
 spec:
   strategy:
     type: Rolling
@@ -23,33 +24,32 @@ spec:
       timeoutSeconds: 600
       maxUnavailable: 25%
       maxSurge: 25%
-
     activeDeadlineSeconds: 21600
   triggers:
     - type: ImageChange
       imageChangeParams:
         automatic: true
         containerNames:
-          - quotegen
+          - backend
         from:
           kind: ImageStreamTag
-          name: 'quotegen:latest'
+          name: 'backend:latest'
     - type: ConfigChange
   replicas: 1
   revisionHistoryLimit: 10
   test: false
   selector:
-    app: quotegen
-    deploymentconfig: quotegen
+    app: backend
+    deploymentconfig: backend
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: quotegen
-        deploymentconfig: quotegen
+        app: backend
+        deploymentconfig: backend
     spec:
       containers:
-        - name: quotegen
+        - name: backend
           image: ''
           ports:
             - containerPort: 8080
