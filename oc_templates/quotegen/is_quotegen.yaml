@@ -2,4 +2,12 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-  name: 'quotegen'
+  name: backend
+  labels:
+    app: backend
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: backend
+    app.kubernetes.io/name: python
+    app.kubernetes.io/part-of: quotegen
+    app.openshift.io/runtime: python
+    app.openshift.io/runtime-version: '3.6'

@@ -1,11 +1,13 @@
 import logging
-
+import os
 import daiquiri
 
-from core.config import LOG_LEVEL
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
+if LOG_LEVEL not in ["INFO", "DEBUG"]:
+    LOG_LEVEL = "INFO"
 
 
-class daac_logging:
+class quotelogging:
     def __init__(self):
 
         daiquiri.setup(level=LOG_LEVEL)

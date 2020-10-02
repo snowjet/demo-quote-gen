@@ -2,30 +2,136 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from core.config import LOG_LEVEL, QUOTE_BACKEND
+from typing import List
+
+from fastapi import Depends, FastAPI, HTTPException
+
+from core.config import json_file_path
 from core.log import logger
-from core.quote import get_quote
 
-logger.info("Config Imported", LOG_LEVEL=LOG_LEVEL)
+from sqlalchemy.orm import Session
 
-if LOG_LEVEL == "DEBUG":
-    DEBUG = True
-else:
-    DEBUG = False
+from crud import quotes as quotesCRUD
+from crud.read_json import return_json_quotes
+from db import models, schemas
+from db.database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-if QUOTE_BACKEND == "DB":
-    from db.db_utils import load_schema_safe
-
-    msg = load_schema_safe()
-    logger.info("Setup DB", load_schema_msg=msg)
+sql_drivername = str(engine.url.drivername)
 
 
-@app.get("/")
-async def home():
-    name, quote, backend = get_quote()
-    msg_dict = {"name": name, "quote": quote, "backend": backend}
-    msg = jsonable_encoder(msg_dict)
-    logger.info("Returned Quote:", qoute=msg_dict)
-    return JSONResponse(content=msg)
+def get_db():
+
+    db_session = SessionLocal()
+    logger.debug("DB session obtained")
+    try:
+        yield db_session
+    finally:
+        db_session.close()
+        logger.debug("DB Closed")
+
+
+def add_backend(fieldname: str = "detail", msg: str = None):
+
+    content = {}
+    content["backend"] = sql_drivername
+    content[fieldname] = msg
+
+    return content
+
+
+""" Bootstrap the DB if enviornment path to file is provided """
+if json_file_path is not None:
+    quotes_as_json = return_json_quotes(json_file_path)
+
+    logger.debug("attempting to seed DB")
+    db_session = SessionLocal()
+
+    quoteList = schemas.QuotesList(quotes=quotes_as_json["quotes"])
+    if quotesCRUD.seed_db(db=db_session, quoteList=quoteList) is None:
+        logger.info("DB Seed Unsuccessful")
+    else:
+        logger.info("database successfully seeded")
+
+    db_session.close()
+
+
+@app.get("/", response_model=List[schemas.Quote])
+async def quote(db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_random_quote(db))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quotes", response_model=List[schemas.Quote])
+async def list_quotes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_all_quotes(db, skip=skip, limit=limit))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quotes/id", response_model=List[schemas.Quote])
+async def get_all_quotes_with_id(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_all_quotes_with_id(db, skip=skip, limit=limit))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quote/id/{id}", response_model=List[schemas.Quote])
+async def get_quote(id: int, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_quote_by_id(db, id=id))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/quote/name/{name}", response_model=List[schemas.Quote])
+async def get_quote(name: str, db: Session = Depends(get_db)):
+
+    quote = jsonable_encoder(quotesCRUD.get_quote_by_name(db, name=name))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.post("/quote", response_model=schemas.Quote)
+def create_quote(quote: schemas.QuotesCreate, db: Session = Depends(get_db)):
+    db_quote = quotesCRUD.get_quote_by_name_and_quote(
+        db, name=quote.name, quote=quote.quote
+    )
+    if db_quote:
+        raise HTTPException(status_code=400, detail="Quote Already Exists")
+
+    quote = jsonable_encoder(quotesCRUD.create_quote(db=db, quote=quote))
+    content = add_backend(fieldname="quotes", msg=quote)
+
+    return JSONResponse(content=content)
+
+
+@app.post("/seed", response_model=schemas.QuotesList)
+def seed_db(quoteList: schemas.QuotesList, db: Session = Depends(get_db)):
+    if quotesCRUD.seed_db(db=db, quoteList=quoteList) is None:
+        raise HTTPException(status_code=400, detail="DB Seed Unsuccessful")
+
+    msg = "database successfully seeded"
+    content = add_backend(fieldname="detail", msg=msg)
+
+    return JSONResponse(content=content)
+
+
+@app.get("/admin/delete_all", response_model=List[schemas.Quote])
+async def delete_all_quotes(db: Session = Depends(get_db)):
+
+    msg = jsonable_encoder(quotesCRUD.delete_all_quotes(db))
+    content = add_backend(fieldname="detail", msg=msg)
+
+    return JSONResponse(content=content)

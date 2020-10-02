@@ -8,7 +8,7 @@ metadata:
   name: quotegen
 spec:
   params:
-    - default: quotegen
+    - default: backend
       description: name of DeploymentConfig
       name: DC_NAME
       type: string
@@ -18,7 +18,7 @@ spec:
     - name: app-image
       type: image
   tasks:
-    - name: pytest
+    - name: pytest-sqlite
       params:
         - name: pythonImage
           value: registry.redhat.io/rhel8/python-38
@@ -32,7 +32,7 @@ spec:
             resource: app-source
       taskRef:
         kind: Task
-        name: pytest
+        name: pytest-sqlite
     - name: build
       params:
         - name: BUILDER_IMAGE
@@ -53,7 +53,7 @@ spec:
           - name: image
             resource: app-image
       runAfter:
-        - pytest
+        - pytest-sqlite
         - pytest-postgres
       taskRef:
         kind: ClusterTask

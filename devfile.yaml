@@ -6,7 +6,7 @@ projects:
     source:
       location: 'https://github.com/snowjet/demo-quote-gen.git'
       type: git
-      branch: dev
+      branch: sql
 components:
   - id: ms-python/python/latest
     memoryLimit: 512Mi
@@ -51,9 +51,23 @@ commands:
         component: python
         command: pip install --user -r requirements.txt
         workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"
-  - name: run-debug-db
+  - name: run-debug-sqlite
     actions:
       - type: exec
         component: python
-        command: export LOG_LEVEL="DEBUG" && export QUOTE_BACKEND="DB" && python app.py 
+        command: >-
+          export LOG_LEVEL="DEBUG" && 
+          export DATABASE_TYPE="sqlite" &&
+          export JSON_QUOTE_PATH="./quotes/quotes.json" && 
+          python app.py
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"        
+  - name: run-debug-postgresql
+    actions:
+      - type: exec
+        component: python
+        command: >-
+          export LOG_LEVEL="DEBUG" && 
+          export DATABASE_TYPE="postgresql" && 
+          export JSON_QUOTE_PATH="./quotes/quotes.json" &&           
+          python app.py 
         workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"

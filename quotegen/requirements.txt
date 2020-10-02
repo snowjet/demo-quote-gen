@@ -5,5 +5,7 @@ python-dotenv
 requests
 six
 cryptography
-psycopg2-binary
 fastapi[all]
+sqlalchemy
+pydantic
+psycopg2-binary

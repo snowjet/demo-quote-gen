@@ -8,16 +8,16 @@ spec:
     - name: url
       value: 'https://github.com/snowjet/demo-quote-gen.git'
     - name: revision
-      value: master
+      value: sql
   type: git
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
   generation: 1
-  name: image-quotegen
+  name: image-backend
 spec:
   params:
     - name: url
-      value: 'image-registry.openshift-image-registry.svc:5000/$(PROJECT)/quotegen'
+      value: 'image-registry.openshift-image-registry.svc:5000/quote-pipeline/backend'
   type: image
