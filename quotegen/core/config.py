@@ -6,6 +6,22 @@ from core.security import decrypt
 from core.log import logger
 
 
+from pydantic import BaseSettings
+from pydantic import BaseModel, HttpUrl, ValidationError
+
+
+class Settings(BaseSettings):
+    PROJECT_NAME: str = "Backend Application"
+    log_level: str = "INFO"
+    external_image_api: HttpUrl = "http://127.0.0.1:8001/api/v1/image"
+
+    class Config:
+        env_file = ".env"
+
+
+settings = Settings()
+
+
 env_file = os.environ.get("env_file", ".env")
 load_dotenv(env_file)
 

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: database
     app.kubernetes.io/component: database
-    app.kubernetes.io/instance: postgresl
+    app.kubernetes.io/instance: database
     app.kubernetes.io/name: database
     app.kubernetes.io/part-of: quotegen
     app.openshift.io/version: 'latest'

@@ -5,6 +5,13 @@ metadata:
   annotations:
     template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="database")].port}'
   name: database
+  labels:
+    app: database
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: database
+    app.kubernetes.io/name: database
+    app.kubernetes.io/part-of: quotegen
+    app.openshift.io/version: 'latest'  
 spec:
   ports:
     - name: database
