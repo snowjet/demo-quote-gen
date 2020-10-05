@@ -6,3 +6,4 @@ data:
   DATABASE_TYPE: postgresql
   JSON_QUOTE_PATH: ./quotes/quotes.json
   external_image_api: $(external_imape_base_url)/api/v1/image
+  external_image_api_v2: $(external_imape_base_url)/api/v2/image
