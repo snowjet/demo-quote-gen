@@ -5,4 +5,4 @@ metadata:
 data:
   DATABASE_TYPE: postgresql
   JSON_QUOTE_PATH: ./quotes/quotes.json
-  external_image_api: http://127.0.0.1:8001/api/v1/image
+  external_image_api: $(external_imape_base_url)/api/v1/image

@@ -16,7 +16,7 @@ For example:
 
 ## CodeReady Workspaces
 
-[![Contribute](images/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen)
+[![Contribute](images/factory-contribute.svg)](https://codeready-openshift-workspaces.apps-crc.testing/f?url=https://github.com/snowjet/demo-quote-gen),
 
 
 ## Pipelines (Tekton)
@@ -61,10 +61,11 @@ oc apply -f ./oc_templates/quotegen/svc_postgresql.yaml
 ## create application with postgres backend
 
 ```bash
-
+export external_imape_base_url="<url>"
 oc apply -f ./oc_templates/quotegen/is_quotegen.yaml
 oc apply -f ./oc_templates/quotegen/svc_quotegen.yaml
 oc apply -f ./oc_templates/quotegen/dc_quotegen_db.yaml
+oc apply -f ./oc_templates/quotegen/cfgmap-quotegen.yaml
 
 oc expose svc/quotegen
 
