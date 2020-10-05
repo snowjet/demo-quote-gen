@@ -58,10 +58,6 @@ spec:
           terminationMessagePolicy: File
           imagePullPolicy: Always
           env:
-            - name: DATABASE_TYPE
-              value: postgresql
-            - name: JSON_QUOTE_PATH
-              value: "./quotes/quotes.json"
             - name: database-user
               valueFrom:
                 secretKeyRef:
@@ -76,7 +72,10 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: database
-                  key: database-name          
+                  key: database-name
+          envFrom:
+            - configMapRef:
+                name: cfgmap-backend       
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

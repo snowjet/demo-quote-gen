@@ -12,6 +12,7 @@ from core.log import logger
 from sqlalchemy.orm import Session
 
 from crud import quotes as quotesCRUD
+from crud import images as imagesCRUD
 from crud.read_json import return_json_quotes
 from db import models, schemas
 from db.database import SessionLocal, engine
@@ -101,6 +102,13 @@ async def get_quote(name: str, db: Session = Depends(get_db)):
     content = add_backend(fieldname="quotes", msg=quote)
 
     return JSONResponse(content=content)
+
+
+@app.get("/quote/image", response_model=List[schemas.Quote])
+async def get_image(name: str):
+
+    image = jsonable_encoder(imagesCRUD.get_image_simple(name=name))
+    return JSONResponse(content=image)
 
 
 @app.post("/quote", response_model=schemas.Quote)

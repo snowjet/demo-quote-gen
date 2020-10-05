@@ -4,7 +4,7 @@ from sqlalchemy.orm import load_only, deferred
 
 from db import models, schemas
 from core.log import logger
-import json
+
 import random
 
 
