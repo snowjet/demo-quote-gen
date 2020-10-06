@@ -56,7 +56,7 @@ def get_image_simple(name):
 def get_image_simple_api_v2(name):
 
     try:
-        url = settings.external_image_api
+        url = settings.external_image_api_v2
 
         with httpx.Client() as client:
             
