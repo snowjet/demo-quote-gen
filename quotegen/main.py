@@ -107,7 +107,7 @@ async def get_quote(name: str, db: Session = Depends(get_db)):
 @app.get("/quote/image", response_model=List[schemas.Quote])
 async def get_image(name: str):
 
-    image = jsonable_encoder(imagesCRUD.get_image_simple(apiVersion=1, name=name))
+    image = jsonable_encoder(imagesCRUD.get_image_simple(apiVersion=2, name=name))
     return JSONResponse(content=image)
 
 
