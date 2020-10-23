@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Backend Application"
     log_level: str = "INFO"
     external_image_api: HttpUrl = "http://127.0.0.1:8001/api/v1/image"
+    external_image_api_v2: HttpUrl = "http://127.0.0.1:8001/api/v2/image"
 
     class Config:
         env_file = ".env"

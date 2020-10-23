@@ -5,21 +5,37 @@
             "quote":"Real Artists Ship."
         },
         {
+            "name":"Sheryl Sandberg",
+            "quote":"Done is better than perfect."
+        },
+        {
             "name":"Isaac Asimov",
             "quote":"I do not fear computers. I fear lack of them."
         },
+        {
+            "name":"Erica Jong",
+            "quote":"If you don’t risk anything, you risk even more."
+        },        
         {
             "name":"Bill Gates",
             "quote":"The computer was born to solve problems that did not exist before."
         },
         {
+            "name":"Ginni Rometty",
+            "quote":"Be first and be lonely."
+        },          
+        {
             "name":"IBM Manual, 1925",
             "quote":"All parts should go together without forcing.  You must remember that the parts you are reassembling were disassembled by you.  Therefore, if you can’t get them together again, there must be a reason.  By all means, do not use a hammer."
         },
         {
-            "name":"Alan Bennett",
+            "name":"Chris Evert",
             "quote":"Standards are always out of date.  That’s what makes them standards."
         },
+        {
+            "name":"Ginni Rometty",
+            "quote":"You can’t give up! If you give up, you’re like everybody else."
+        },      
         {
             "name":"Socrates",
             "quote":"The more you know, the more you realize you know nothing."

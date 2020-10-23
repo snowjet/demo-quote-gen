@@ -75,7 +75,7 @@ spec:
                   key: database-name
           envFrom:
             - configMapRef:
-                name: cfgmap-backend       
+                name: cfgmap-backend   
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
