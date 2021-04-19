@@ -50,7 +50,7 @@ oc apply -f ./oc_templates/pipeline-no-ws
 
 export POSTGRESQL_DATABASE="quotes"
 export POSTGRESQL_USER="user"
-export POSTGRESQL_PASSWORD="`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''`"
+export POSTGRESQL_PASSWORD="`head /dev/urandom | base64 | head -c 13 ; echo ''`"
 
 oc apply -f ./oc_templates/quotegen/secret_postgresql.yaml
 oc apply -f ./oc_templates/quotegen/dc_postgresql.yaml
