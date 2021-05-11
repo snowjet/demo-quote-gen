@@ -16,7 +16,7 @@ For example:
 
 ## CodeReady Workspaces
 
-[![Contribute](images/factory-contribute.svg)](https://codeready-gpte-crw.apps.shared-na4.na4.openshift.opentlc.com/f?url=https://github.com/snowjet/demo-quote-gen)
+[![Contribute](images/factory-contribute.svg)](https://codeready-gpte-crw.apps.shared-na46.openshift.opentlc.com/f?url=https://github.com/snowjet/demo-quote-gen)
 
 
 ## Pipelines (Tekton)
