@@ -12,7 +12,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m virtualenv --python=/usr/bin/python3 $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY imagelookup /usr/src/app/quotegen
+COPY quotegen /usr/src/app/quotegen
 RUN chown -R 1001:0 ${VIRTUAL_ENV} && \
     chown -R 1001:0 /usr/src/app/quotegen
     
