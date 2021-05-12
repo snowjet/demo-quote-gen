@@ -6,8 +6,7 @@ WORKDIR /usr/src/app
 
 USER 0
 COPY quotegen /usr/src/app/quotegen
-COPY pypi /tmp/pypi
-RUN chown -R 1001:0 /usr/src/app/quotegen && chown -R 1001:0 /tmp/pypi
+RUN chown -R 1001:0 /usr/src/app/quotegen
 USER 1001
 
 WORKDIR /usr/src/app/quotegen
